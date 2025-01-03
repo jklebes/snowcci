@@ -74,7 +74,6 @@ if __name__=="__main__":
     Nens = 100    # ensemble size
     Pstd = 0.63   # precipitation multiplier standard deviation
     Tstd = 1.0    # temperature offset standard deviation
->>>>>>> 2a6867fee3298b201c7d0ae6a3958e0184b146db
 
     # compile fortran code
     os.system('./compil.sh') 
@@ -91,22 +90,3 @@ if __name__=="__main__":
 
     # process random number pair to argument string of FSM2
     tasks.map(getRandom).map(generateInputFile).map(runFSM2).compute()
-    """
-    nlst = open('nlst','w')
-    nlst.write('&params \n') 
-    nlst.write('/ \n') 
-    nlst.close()
-    os.system('./FSM2 < nlst')
-    os.system('mv FSM2out.nc FSM2out_opn.nc')
-
-    # run the ensemble and copy outputs
-    for n in range(Nens):
-        nlst = open('nlst','w')
-        nlst.write('&params \n') 
-        nlst.write('  Pmlt = '+str(Pmlt[n])+' \n') 
-        nlst.write('  Tadd = '+str(Tadd[n])+' \n') 
-        nlst.write('/ \n') 
-        nlst.close()
-        os.system('./FSM2 < nlst')
-        os.system('mv FSM2out.nc FSM2out_'+str(n).zfill(3)+'.nc')
-    """
