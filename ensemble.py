@@ -6,7 +6,6 @@ import os
 import dask.bag as db
 from dask.distributed import Client
 import dask.delayed
-import time
 
 nCPUs = 4
 Nens = 100    # ensemble size
