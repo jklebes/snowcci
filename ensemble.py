@@ -40,6 +40,41 @@ if __name__=="__main__":
     print(client)
     print("Click here to see dask dashboard: ", client.dashboard_link)
 
+# function which writes info from the tuple t=(label, Pmlt, Tadd) to 
+# input file nlst_i and returns file name
+def generateInputFile(t):
+    filename = "nlst_"+t[0]
+    nlst = open(filename,'w')
+    print("Writing ", filename)
+    nlst.write('&params \n') 
+    nlst.write('  Pmlt = '+str(t[1])+' \n') 
+    nlst.write('  Tadd = '+str(t[2])+' \n') 
+    nlst.write('/ \n') 
+    nlst.write('&outputs \n') 
+    nlst.write("  runid = '"+t[0]+"_' \n") 
+    nlst.write('/ \n') 
+    nlst.close()
+    #t1 =  t[1]
+    #while t1>0:
+    #    t1 -=.00000001
+    return filename
+
+def runFSM2(filename):   
+    print("Running ./FSM2 <", filename)
+    os.system('./FSM2 < '+ filename)
+    # return exit code ?
+
+if __name__=="__main__":
+    # just for info, print link to show computation
+    client = Client()
+    print(client)
+    print("Click here to see dask dashboard: ", client.dashboard_link)
+
+
+    Nens = 100    # ensemble size
+    Pstd = 0.63   # precipitation multiplier standard deviation
+    Tstd = 1.0    # temperature offset standard deviation
+>>>>>>> 2a6867fee3298b201c7d0ae6a3958e0184b146db
 
     # compile fortran code
     os.system('./compil.sh') 
@@ -54,7 +89,6 @@ if __name__=="__main__":
     def getRandom(i):
         return((str(i), get_Pmlt(), get_Tadd()))
 
-    
     # process random number pair to argument string of FSM2
     tasks.map(getRandom).map(generateInputFile).map(runFSM2).compute()
     """
