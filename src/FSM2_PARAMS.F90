@@ -55,6 +55,9 @@ real :: &
   Pmlt,              &! Precipitation multiplier for ensemble generation
   Tadd                ! Temperature offset for ensemble generation (K)
 
+! output file
+character(len = 70):: runid
+
 end module PARAMETERS
 
 !-----------------------------------------------------------------------
@@ -68,11 +71,14 @@ use PARAMETERS
 
 implicit none
 
-namelist /params/ acn0,acns,avg0,avgs,cvai,gsnf,hbas,kext,leaf,svai,   &
-                  Tunl,Uunl,wcan,Pmlt,Tadd,                            &
-                  asmn,asmx,eta0,hfsn,kfix,rcld,rfix,rgr0,rhof,rmlt,   &
-                  Salb,snda,Talb,tcld,tmlt,trho,Wirr,z0sn,fcly,fsnd,   &
-                  gsat,z0sf 
+namelist/params/acn0, acns, avg0, avgs, cvai, gsnf, hbas, kext, leaf, svai,   &
+                  Tunl, Uunl, wcan, Pmlt, Tadd,                            &
+                  asmn, asmx, eta0, hfsn, kfix, rcld, rfix, rgr0, rhof, rmlt,   &
+                  Salb, snda, Talb, tcld, tmlt, trho, Wirr, z0sn, fcly, fsnd,   &
+                  gsat, z0sf 
+
+
+namelist/outputs/runid
 
 ! Vegetation parameters
 acn0 = 0.1            ! Snow-free dense canopy albedo
@@ -122,7 +128,12 @@ z0sf = 0.1            ! Snow-free surface roughness length (m)
 Pmlt = 1              ! Precipitation multiplier for ensemble generation
 Tadd = 0              ! Temperature offset for ensemble generation (K)
 
-read(5,params)
+! file names
+runid='none'
+
+read(5, params)
+read(5, outputs)
+if (runid == 'none') runid = ''
 #if DENSTY == 0
 rhof = rfix
 #endif
