@@ -52,6 +52,8 @@ if __name__=="__main__":
     # create Bag containing ints 0..99
     tasks = db.range(Nens, npartitions=nCPUs)
 
-
-    # process random number pair to argument string of FSM2
+    # run the sequence of steps: 
+    # generate random values Pmlt and Tadd
+    # write input file
+    # run fortran exectuable
     tasks.map(getRandom).map(generateInputFile).map(runFSM2).compute()
