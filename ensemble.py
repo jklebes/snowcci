@@ -15,6 +15,7 @@ Pstd = 0.63   # precipitation multiplier standard deviation
 Tstd = 1.0    # temperature offset standard deviation
 
 # compile fortran code
+print("Compiling")
 os.system('./compil.sh') 
 
 # generate meteorology perturbations
@@ -22,6 +23,7 @@ Pmlt = np.random.lognormal(-0.5*Pstd**2,Pstd,Nens)
 Tadd = np.random.normal(0.,Tstd,Nens)
 
 # write the different input files nlst
+print("Writing nlst_<i> files")
 for n in range(Nens):
     nlst = open('nlst_'+str(n),'w')
     nlst.write('&params \n') 
@@ -33,6 +35,12 @@ for n in range(Nens):
     nlst.write('/ \n') 
     nlst.close()
 
-# process input files by launching parallel ./FSM2 commands 
-os.system("ls nlst_* | parallel --jobs "+str(nCPUs)+" '(cat {} | ./FSM2 )'")
+# edit submit script file to match number of files
+
+
+# submit task array on forth 
+# request for example 100 simulations with nCPUs running at once
+submit_command = "sbatch --array=1-"+str(Nens)+"%"+str(nCPUs)+" submit.sh"
+print("Submitting job: " , submit_command)
+os.system(submit_command)
 
