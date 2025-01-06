@@ -5,3 +5,4 @@ Version using slurm job task array
 Notes:
 - set up a conda enviroment with numpy
 - edit nCPUs in script ensemble.py
+- if encountering ``sbatch: error: QOSMaxSubmitJobPerUserLimit`` decrease Nens.  max allowed is probaly 100.
