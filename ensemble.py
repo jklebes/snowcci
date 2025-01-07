@@ -35,9 +35,6 @@ for n in range(Nens):
     nlst.write('/ \n') 
     nlst.close()
 
-# edit submit script file to match number of files
-
-
 # submit task array on forth 
 # request for example 100 simulations with nCPUs running at once
 submit_command = "sbatch --array=1-"+str(Nens)+"%"+str(nCPUs)+" submit.sh"
