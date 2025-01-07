@@ -2,9 +2,7 @@
 Run model ensemble 
 """
 
-# minimal change version using gnu-parallel bash command.
-# To use: `conda install parallel -c conda-forge` or 
-# distribution-specific gnu-parallel install
+# Version for slurm cluster job array
 
 import numpy as np
 import os
